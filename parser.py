@@ -11,6 +11,7 @@ class Parser:
     URL = {'bitrix': 'https://portal.anichkov.ru/extranet/',
            'vk_russian': 'https://vk.com/club207108934'}
     AUTHORIZATION = {'bitrix': ('kseniakulis45769@gmail.com', 'An1chk0v')}
+    # first_vk_parser
 
     def __init__(self):
         self.__links = {'bitrix': []}
@@ -56,7 +57,6 @@ class Parser:
         soup = self.__get_bitrix_soup()  # получить удобный для парсинга HTML-код страницы
         posts = []  # список постов
         for tag in soup.find_all('div', class_='feed-post-title-block', limit=post_limit):
-            message = []
             # получить данные из "шапки" поста
             post_head = str(tag.contents[0].get_text()), str(tag.contents[2].contents[0].get_text())
             message = post.Post(post_head)
