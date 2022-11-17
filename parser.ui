@@ -30,40 +30,90 @@
     <normaloff>../../../../Pictures/Разное/parser_icon.svg</normaloff>../../../../Pictures/Разное/parser_icon.svg</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 40, 40);</string>
+   <string notr="true">background-color: rgb(40, 40, 40);
+selection-background-color: rgba(255, 170, 0, 250);
+selection-color: rgba(50, 50, 50, 240);
+color: rgba(240, 240, 240, 250);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPlainTextEdit" name="plainText">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
+   <widget class="QTableWidget" name="tableDBView">
     <property name="geometry">
      <rect>
-      <x>343</x>
-      <y>20</y>
-      <width>731</width>
-      <height>601</height>
+      <x>35</x>
+      <y>10</y>
+      <width>570</width>
+      <height>290</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-     </font>
+    <property name="minimumSize">
+     <size>
+      <width>570</width>
+      <height>290</height>
+     </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgba(240, 240, 240, 250);
-selection-background-color: rgba(200, 200, 200, 240);
-selection-color: rgb(40, 40, 40);
-background-color: rgba(50, 50, 50, 240);</string>
+     <string notr="true">selection-background-color: rgba(255, 170, 0, 250);
+alternate-background-color: rgba(240, 240, 240, 250);
+color: rgba(50, 50, 50, 250);</string>
     </property>
     <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
+     <enum>QFrame::Box</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Sunken</enum>
     </property>
-    <property name="lineWidth">
-     <number>1</number>
+    <property name="gridStyle">
+     <enum>Qt::SolidLine</enum>
+    </property>
+    <column>
+     <property name="text">
+      <string>Платформа</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Предмет</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Публикующий</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>New Column</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPlainTextEdit" name="messageTextView">
+    <property name="geometry">
+     <rect>
+      <x>33</x>
+      <y>320</y>
+      <width>570</width>
+      <height>290</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>570</width>
+      <height>290</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
     </property>
     <property name="readOnly">
      <bool>true</bool>
@@ -72,26 +122,23 @@ background-color: rgba(50, 50, 50, 240);</string>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>301</width>
-      <height>201</height>
+      <x>659</x>
+      <y>29</y>
+      <width>381</width>
+      <height>121</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verLay1">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
          <family>Segoe UI</family>
-         <pointsize>11</pointsize>
+         <pointsize>10</pointsize>
         </font>
        </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);</string>
-       </property>
        <property name="text">
-        <string>Выберите социальную сеть:</string>
+        <string>Загрузка данных о сообщениях:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -99,58 +146,23 @@ background-color: rgba(50, 50, 50, 240);</string>
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="anichkov">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-selection-color: rgb(40, 40, 40);</string>
-       </property>
+      <widget class="QCheckBox" name="sincPortal">
        <property name="text">
-        <string>portal.anichkov.ru</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
+        <string>Синхронизировать с portal.anichkov.ru</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="vk">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-selection-color: rgb(40, 40, 40);</string>
-       </property>
+      <widget class="QCheckBox" name="sincVk">
        <property name="text">
-        <string>vk.com</string>
+        <string>Синхронизировать с vk.com</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="parseBtn">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-selection-background-color: rgba(200, 200, 200, 240);
-selection-color: rgb(40, 40, 40);
-background-color: rgba(50, 50, 50, 240);</string>
-       </property>
+      <widget class="QPushButton" name="loadDataBtn">
        <property name="text">
-        <string>Парсить</string>
+        <string>Загрузить</string>
        </property>
       </widget>
      </item>
@@ -159,26 +171,23 @@ background-color: rgba(50, 50, 50, 240);</string>
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>300</y>
-      <width>301</width>
-      <height>111</height>
+      <x>660</x>
+      <y>400</y>
+      <width>381</width>
+      <height>101</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verLay2">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLabel" name="label_2">
        <property name="font">
         <font>
          <family>Segoe UI</family>
-         <pointsize>11</pointsize>
+         <pointsize>10</pointsize>
         </font>
        </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);</string>
-       </property>
        <property name="text">
-        <string>Скачать файл:</string>
+        <string>Скачать прикрепленные файлы:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -186,36 +195,19 @@ background-color: rgba(50, 50, 50, 240);</string>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="chooseAttach">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>10</pointsize>
-        </font>
+      <widget class="QComboBox" name="selectAttach">
+       <property name="frame">
+        <bool>false</bool>
        </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-selection-background-color: rgba(200, 200, 200, 240);
-selection-color: rgb(40, 40, 40);
-background-color: rgba(50, 50, 50, 240);
-selection-background-color: rgb(255, 170, 0);</string>
-       </property>
+       <item>
+        <property name="text">
+         <string>Выбрать файл</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="saveAttach">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-selection-background-color: rgba(200, 200, 200, 240);
-selection-color: rgb(40, 40, 40);
-background-color: rgba(50, 50, 50, 240);</string>
-       </property>
+      <widget class="QPushButton" name="loadAttachBtn">
        <property name="text">
         <string>Скачать</string>
        </property>
@@ -226,26 +218,23 @@ background-color: rgba(50, 50, 50, 240);</string>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>480</y>
-      <width>301</width>
+      <x>660</x>
+      <y>210</y>
+      <width>381</width>
       <height>131</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verLay3">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <widget class="QLabel" name="label_3">
        <property name="font">
         <font>
          <family>Segoe UI</family>
-         <pointsize>11</pointsize>
+         <pointsize>10</pointsize>
         </font>
        </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);</string>
-       </property>
        <property name="text">
-        <string>Записать сообщения в файл (.txt)</string>
+        <string>Фильтрация просмотра записей:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -253,45 +242,49 @@ background-color: rgba(50, 50, 50, 240);</string>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="fileName">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-background-color:rgba(100, 100, 100, 150);
-selection-background-color: rgba(255, 170, 0, 180);
-selection-color: rgb(40, 40, 40);
-border-color: rgb(100, 100, 100);
-gridline-color: rgb(100, 100, 100);</string>
-       </property>
-       <property name="text">
-        <string>Имя файла без расширения</string>
-       </property>
+      <widget class="QComboBox" name="platformFilter">
        <property name="frame">
         <bool>false</bool>
        </property>
+       <item>
+        <property name="text">
+         <string>платформа</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>portal.anichkov.ru</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>vk.com</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="saveFile">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>10</pointsize>
-        </font>
+      <widget class="QComboBox" name="subjectFilter">
+       <property name="frame">
+        <bool>false</bool>
        </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgba(240, 240, 240, 250);
-selection-background-color: rgba(200, 200, 200, 240);
-selection-color: rgb(40, 40, 40);
-background-color: rgba(50, 50, 50, 240);</string>
+       <item>
+        <property name="text">
+         <string>предмет</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="filterBtn">
+       <property name="enabled">
+        <bool>true</bool>
        </property>
        <property name="text">
-        <string>Записать файл</string>
+        <string>Применить фильтр</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

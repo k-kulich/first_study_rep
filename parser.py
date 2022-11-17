@@ -1,6 +1,8 @@
 import requests  # для выполнения GET-запросов
 import post  # для хранения сообщений из постов
+from vk_api import VkApi  # готовая библиотека для работы с VK API
 from bs4 import BeautifulSoup, element  # для парсинга кода
+from time import sleep  # для пауз между запросами в VK API
 
 
 class Parser:
@@ -8,13 +10,20 @@ class Parser:
     Объект, осуществляющий поиск информации на сайтах и возвращающий ее для дальнейшей обработки.
     Использует BeautifulSoup для удобного просмотра HTML-кода страниц.
     """
-    URL = {'bitrix': 'https://portal.anichkov.ru/extranet/',
-           'vk_russian': 'https://vk.com/club207108934'}
+    URL = {'bitrix': 'https://portal.anichkov.ru/extranet/'}
     AUTHORIZATION = {'bitrix': ('kseniakulis45769@gmail.com', 'An1chk0v')}
-    # first_vk_parser
+    VK_GROUPS = ('al20202022', 'anichcov10b', '-186147026', '-207108934', '-199474162')
+
+    # TODO: delete hardcoded access_token
+    __access_token = 'vk1.a.sPvuT1Nad2hp93ARPEI5X-ZwyWVUAO--4c4ThEi-VvfCQJkyWaD3TBoTudSHZIaKH0ZXAlauKFQYzXCZKORsg9eNJJ9QUORX_50l1ry8YLXNk-wVfh4KjFX3AxXTonmk0Bt9_q42bZ3hZbm-cu5zuoy1aeH3k9idQl3nL_8qhP8Bw-l3lDGfQQxwkHUyaw4-Z4rltGQ3KNkapjpthIkqGg'
+    __vkapi_v = '5.131'
 
     def __init__(self):
-        self.__links = {'bitrix': []}
+        self.__links = {'bitrix': [], 'vk': []}
+        self.__vk_posts = {}
+
+        self.vk_session = VkApi(token=self.__access_token)
+        self.vk = self.vk_session.get_api()
 
     @staticmethod
     def __get_bitrix_soup():
@@ -77,6 +86,22 @@ class Parser:
 
         return posts
 
+    def parse_vk(self, post_count=3):
+        for group in self.VK_GROUPS:
+            print(group)
+            if group[0] == '-':
+                response = self.vk.wall.get(owner_id=group, count=post_count)
+            else:
+                response = self.vk.wall.get(domain=group, count=post_count)
+            for item in response['items']:
+                #print(item['text'])
+                self.__vk_posts[group] = self.__vk_posts.get(group, []) + [item['text']]
+                #print(item.get('attachments'), '')
+                self.__links['vk'].extend(item.get('attachments', []))
+            sleep(0.5)
+
 
 prs = Parser()
-prs.parse_bitrix()
+#prs.parse_bitrix()
+print('\n\n\n ----------- vk parsing ---------------\n\n\n')
+prs.parse_vk()
