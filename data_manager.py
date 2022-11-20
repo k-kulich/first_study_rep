@@ -3,11 +3,14 @@ from my_parser import Parser
 
 
 class DataManager:
+    """Осуществляет все взаимодействие с БД: от обновления до получения данных. Парсером также
+    управляет этот класс."""
     def __init__(self):
         self.__connection = sqlite3.connect('homework_db.sqlite3')
         self.__parser = Parser()
 
     def __add_to_db(self, cursor, post):
+        """Добавляет всю информацию поста в БД."""
         sub_id = cursor.execute("""SELECT id FROM subjects
                     WHERE title = ?""", (post.get_subject(),)).fetchall()[0][0]
         cursor.execute("""INSERT INTO posts(sub_id, datetime, message, attaches_title) 
@@ -22,12 +25,22 @@ class DataManager:
         self.__connection.commit()
 
     def __first_big_update(self):
+        """Создана для первой загрузки данных в таблицу, чтобы поместить туда все, что может
+        пригодиться в ближайшее время."""
         data = self.__parser.parse_vk(post_count=15) + self.__parser.parse_bitrix(post_limit=30)
         cursor = self.__connection.cursor()
         for post in data:
             self.__add_to_db(cursor, post)
 
     def update_db(self, sync_vk=True, sync_bitrix=True, need_first_load=False):
+        """
+        Обновить данные - подгрузить то, что нужно, ели оно нужно.
+        :param sync_vk: нужно ли парсить вк.
+        :param sync_bitrix: нужно ли парсить битрикс.
+        :param need_first_load: необходимо ли сначала заполнить таблицу данными за последние пару
+        месяцев.
+        :return: None.
+        """
         if need_first_load:
             self.__first_big_update()
         data = []
@@ -44,8 +57,13 @@ class DataManager:
             if post.get_only_text() in to_push:
                 self.__add_to_db(cursor, post)
 
-    def load_from_db(self, subject_filter=''):
-        if subject_filter:
+    def load_from_db(self, subject_filter='все'):
+        """
+        Получить данные из БД и вернуть их.
+        :param subject_filter: фильтр по предмету.
+        :return: список совпадений из базы, согласно фильтру.
+        """
+        if subject_filter != 'все':
             data = self.__connection.cursor().execute("""SELECT
                 subjects.title as tit,
                 posts.datetime as dt,
@@ -66,3 +84,11 @@ class DataManager:
             INNER JOIN subjects
             ON posts.sub_id IN (SELECT id FROM subjects WHERE title = tit)""").fetchall()
         return data
+
+    def load_attaches(self):
+        """
+        Получить все ссылки из БД.
+        :return: список аттачей (ссылка, название, тип).
+        """
+        return self.__connection.cursor().execute("""SELECT link, title, type 
+        FROM attachments""").fetchall()
