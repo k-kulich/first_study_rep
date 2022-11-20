@@ -67,27 +67,17 @@ color: rgba(50, 50, 50, 250);</string>
     </property>
     <column>
      <property name="text">
-      <string>Платформа</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
       <string>Предмет</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>Публикующий</string>
+      <string>Время публикации</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>New Column</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string/>
+      <string>Текст</string>
      </property>
     </column>
    </widget>
@@ -239,28 +229,6 @@ color: rgba(50, 50, 50, 250);</string>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="platformFilter">
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string>платформа</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>portal.anichkov.ru</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>vk.com</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>

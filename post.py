@@ -48,5 +48,5 @@ class Post:
         return self.__datetime
 
     def get_attaches_title(self):
-        return list(map(lambda x: x[1], self.__attaches))
+        return ' :: '.join(list(map(lambda x: x[1], self.__attaches)))
 
