@@ -51,7 +51,7 @@ class Parser:
                 continue
             a = div.contents[3].a
             # запомнить все данные по файлам
-            message.add_attach((a['href'], a['data-bx-title'], a['data-bx-size']))
+            message.add_attach((a['href'], a['data-bx-title'], a['data-bx-size'], 'doc'))
 
     @staticmethod
     def __save_vk_attaches(attachments: list, message: post.Post):
@@ -77,7 +77,7 @@ class Parser:
                     if sz['type'] == 'y':
                         url = sz['url']
                         break
-            message.add_attach((url, title, size))  # добавить к сообщению
+            message.add_attach((url, title, size, tp))  # добавить к сообщению
 
     def parse_bitrix(self, post_limit=8):
         """

@@ -21,7 +21,7 @@ class Post:
         self.__attaches.append(attach)
 
     def get_only_text(self):
-        return self.__text.copy()
+        return '\n'.join(self.__text)
 
     def get_whole_text(self):
         """Получить полный текст сообщения в готовом для вывода виде."""
@@ -40,3 +40,13 @@ class Post:
 
     def get_attaches(self):
         return self.__attaches.copy()
+
+    def get_subject(self):
+        return self.__subject
+
+    def get_datetime(self):
+        return self.__datetime
+
+    def get_attaches_title(self):
+        return list(map(lambda x: x[1], self.__attaches))
+
