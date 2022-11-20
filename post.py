@@ -17,7 +17,7 @@ class Post:
     def add_line(self, text_line: str):
         self.__text.append(text_line)
 
-    def add_attach(self, attach: tuple[str, str, str]):
+    def add_attach(self, attach: tuple):
         self.__attaches.append(attach)
 
     def get_only_text(self):
