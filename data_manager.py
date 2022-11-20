@@ -1,5 +1,5 @@
 import sqlite3
-from parser import Parser
+from my_parser import Parser
 
 
 class DataManager:
