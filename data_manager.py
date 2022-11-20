@@ -92,3 +92,7 @@ class DataManager:
         """
         return self.__connection.cursor().execute("""SELECT link, title, type 
         FROM attachments""").fetchall()
+
+    def close_connection(self):
+        """Разрыв соединения с базой."""
+        self.__connection.close()
