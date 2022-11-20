@@ -6,13 +6,13 @@ class Post:
     MAX_LENGTH = 100
 
     def __init__(self, head: tuple[str, str]):
-        self.__creator = head[0]
+        self.__subject = head[0]
         self.__datetime = head[1]
         self.__text = []
         self.__attaches = []
 
     def __repr__(self):
-        return f'Опубликовал: {self.__creator}\nОпубликовано: {self.__datetime}'
+        return f'Опубликовал: {self.__subject}\nОпубликовано: {self.__datetime}'
 
     def add_line(self, text_line: str):
         self.__text.append(text_line)

@@ -1,8 +1,8 @@
 import requests  # для выполнения GET-запросов
 import post  # для хранения сообщений из постов
+import time  # для пауз между запросами и форматирования времени из UNIXTIME
 from vk_api import VkApi  # готовая библиотека для работы с VK API
 from bs4 import BeautifulSoup, element  # для парсинга кода
-from time import sleep  # для пауз между запросами в VK API
 
 
 class Parser:
@@ -12,7 +12,11 @@ class Parser:
     """
     URL = {'bitrix': 'https://portal.anichkov.ru/extranet/'}
     AUTHORIZATION = {'bitrix': ('kseniakulis45769@gmail.com', 'An1chk0v')}
-    VK_GROUPS = ('al20202022', 'anichcov10b', '-186147026', '-207108934', '-199474162')
+    VK_GROUPS = {'al20202022': 'обществознание', 'anichcov10b': 'организационный',
+                 '-186147026': 'история', '-207108934': 'русский язык', '-199474162': 'физика'}
+    CREATORS = {'Анна Булатова': 'право', 'Николай Быков': 'физика',
+                'Елизавета Гайдукова': 'литература', 'Ирина Боярская': 'химия',
+                'Дарья Ганзенко': 'история', 'Анна Рогожко': 'география'}
 
     # TODO: delete hardcoded access_token
     __access_token = 'vk1.a.sPvuT1Nad2hp93ARPEI5X-ZwyWVUAO--4c4ThEi-VvfCQJkyWaD3TBoTudSHZIaKH0ZXAlauKFQYzXCZKORsg9eNJJ9QUORX_50l1ry8YLXNk-wVfh4KjFX3AxXTonmk0Bt9_q42bZ3hZbm-cu5zuoy1aeH3k9idQl3nL_8qhP8Bw-l3lDGfQQxwkHUyaw4-Z4rltGQ3KNkapjpthIkqGg'
@@ -94,11 +98,14 @@ class Parser:
             else:
                 response = self.vk.wall.get(domain=group, count=post_count)
             for item in response['items']:
-                #print(item['text'])
+                subj = self.VK_GROUPS[group]
+                text = item['text']
+                tm = time.strftime("%d %b %Y %H:%M", time.localtime(item['date']))
+                print(subj, tm)
                 self.__vk_posts[group] = self.__vk_posts.get(group, []) + [item['text']]
                 #print(item.get('attachments'), '')
                 self.__links['vk'].extend(item.get('attachments', []))
-            sleep(0.5)
+            time.sleep(0.5)
 
 
 prs = Parser()
