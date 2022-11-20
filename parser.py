@@ -114,21 +114,27 @@ class Parser:
         return posts
 
     def parse_vk(self, post_count=3):
+        """
+        Вытянуть информацию из сообществ в вк через API.
+        :param post_count: число последних постов, откуда брать данные. Из каждого сообщества
+        возьмется такое количество постов.
+        :return: список объектов post.Post, хранящих в себе всю нужную информацию и ссылки.
+        """
         posts = []
         for group in self.VK_GROUPS:  # перебрать сообщества
-            print(group)
-            if group[0] == '-':
+            if group[0] == '-':  # через id и краткое имя группы разный немного доступ
                 response = self.vk.wall.get(owner_id=group, count=post_count)
             else:
                 response = self.vk.wall.get(domain=group, count=post_count)
             # перебрать посты в сообществе
             for item in response['items']:
-                subj = self.VK_GROUPS[group]
+                subj = self.VK_GROUPS[group]  # предмет, задание по которому опубликовано
+                # возвращает мне время в UNIXTIME, так что преобразовываем в человеческий
                 tm = time.strftime("%d %b %Y %H:%M", time.localtime(item['date']))
-                message = post.Post((subj, tm))
-                message.add_line(item['text'])
-                if item.get('attachments', False):
+                message = post.Post((subj, tm))  # создать объект-пост
+                message.add_line(item['text'])  # сохранить текст поста
+                if item.get('attachments', False):  # если есть, то распарсить аттачи
                     self.__save_vk_attaches(item['attachments'], message)
                 posts.append(message)
-            time.sleep(0.5)
+            time.sleep(0.35)  # время ожидания: лимит запросов к VK API - 3 запроса в секунду
         return posts
