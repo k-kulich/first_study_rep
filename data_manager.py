@@ -1,4 +1,4 @@
-import sqlite3   # работа с SQL
+import sqlite3  # работа с SQL
 import os  # получение текущей рабочей директории
 from my_parser import Parser  # импорт парсера
 
@@ -6,6 +6,7 @@ from my_parser import Parser  # импорт парсера
 class DataManager:
     """Осуществляет все взаимодействие с БД: от обновления до получения данных. Парсером также
     управляет этот класс."""
+
     def __init__(self):
         self.__connection = sqlite3.connect('homework_db.sqlite3')
         self.__parser = Parser()

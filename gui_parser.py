@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QHeader
 
 class ParserUI(QMainWindow):
     """Весь GUI и основной исполняемый файл."""
+
     def __init__(self):
         super().__init__()
         try:
@@ -66,11 +67,15 @@ class ParserUI(QMainWindow):
             self.messageTextView.appendPlainText(post.get_whole_text())
 
     def loadToFilter(self):
-        """Загрузить данные о предметах для фильтрации."""
+        """
+        Загрузить данные о предметах для фильтрации.
+        """
         self.subjectFilter.addItems(self.dm.load_subjects())
 
     def showAttaches(self):
-        """Загрузить данные о всех аттачах."""
+        """
+        Загрузить данные о всех аттачах.
+        """
         self.selectAttach.addItems(list(map(lambda x: f'{x[2]}: {x[1]} <|{x[0]}|>',
                                             self.dm.load_attaches())))
 
@@ -93,7 +98,9 @@ class ParserUI(QMainWindow):
             self.status.showMessage('Ошибка: некорректный запрос', 3000)
 
     def closeEvent(self, event):
-        """При закрытии окна нам нужно сказать DM, чтобы разорвал соединение с БД."""
+        """
+        При закрытии окна нам нужно сказать DM, чтобы разорвал соединение с БД.
+        """
         self.dm.close_connection()
 
 

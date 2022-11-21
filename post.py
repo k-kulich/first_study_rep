@@ -44,4 +44,3 @@ class Post:
 
     def get_attaches_title(self):
         return ' :: '.join(list(map(lambda x: x[1], self.__attaches)))
-
