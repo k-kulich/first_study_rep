@@ -12,7 +12,6 @@ class Parser:
     Использует BeautifulSoup для удобного просмотра HTML-кода страниц.
     """
     URL = {'bitrix': 'https://portal.anichkov.ru/extranet/'}
-    AUTHORIZATION = {'bitrix': ('kseniakulis45769@gmail.com', 'An1chk0v')}
     VK_GROUPS = {'al20202022': 'обществознание', 'anichcov10b': 'организационный',
                  '-186147026': 'история', '-207108934': 'русский язык', '-199474162': 'физика'}
     CREATORS = {'Анна Булатова': 'право', 'Николай Быков': 'физика',
@@ -45,7 +44,9 @@ class Parser:
         :return: "суп" - HTML-код в удобном виде благодаря
         """
         url = Parser.URL['bitrix']
-        authorize = Parser.AUTHORIZATION['bitrix']
+        authorize = os.getenv('BX_LOGIN'), os.getenv('BX_PASSWORD')
+        if not all(authorize):
+            raise NoTokenError
         request = requests.get(url, auth=authorize)
         return BeautifulSoup(request.text, 'lxml')
 
