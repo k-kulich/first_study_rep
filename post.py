@@ -12,7 +12,7 @@ class Post:
         self.__attaches = []
 
     def __repr__(self):
-        return f'Опубликовал: {self.__subject}\nОпубликовано: {self.__datetime}'
+        return f'Предмет: {self.__subject}\nОпубликовано: {self.__datetime}'
 
     def add_line(self, text_line: str):
         self.__text.append(text_line)
@@ -35,7 +35,7 @@ class Post:
                 new_line += word + ' '
             text += new_line + '\n'
         for attach in self.__attaches:
-            text += f'\nИмя файла: {attach[1]}\nРазмер файла: {attach[2]}'
+            text += f'\n\nИмя файла: {attach[1]}\nРазмер файла: {attach[2]}'
         return text
 
     def get_attaches(self):
