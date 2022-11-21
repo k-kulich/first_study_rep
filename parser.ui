@@ -140,7 +140,7 @@ background-color: rgb(240, 240, 240);</string>
         <string>Синхронизировать с portal.anichkov.ru</string>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -150,7 +150,7 @@ background-color: rgb(240, 240, 240);</string>
         <string>Синхронизировать с vk.com</string>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>

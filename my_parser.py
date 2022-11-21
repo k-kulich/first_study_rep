@@ -1,6 +1,7 @@
 import requests  # для выполнения GET-запросов
 import post  # для хранения сообщений из постов
 import time  # для пауз между запросами и форматирования времени из UNIXTIME
+import os  # для получения переменной окружения
 from vk_api import VkApi  # готовая библиотека для работы с VK API
 from bs4 import BeautifulSoup, element  # для парсинга кода
 
@@ -18,16 +19,21 @@ class Parser:
                 'Елизавета Гайдукова': 'литература', 'Ирина Боярская': 'химия',
                 'Дарья Ганзенко': 'история', 'Анна Рогожко': 'география'}
 
-    # TODO: delete hardcoded access_token
-    __access_token = 'vk1.a.sPvuT1Nad2hp93ARPEI5X-ZwyWVUAO--4c4ThEi-VvfCQJkyWaD3TBoTudSHZIaKH0ZXAlauKFQYzXCZKORsg9eNJJ9QUORX_50l1ry8YLXNk-wVfh4KjFX3AxXTonmk0Bt9_q42bZ3hZbm-cu5zuoy1aeH3k9idQl3nL_8qhP8Bw-l3lDGfQQxwkHUyaw4-Z4rltGQ3KNkapjpthIkqGg'
-    __vkapi_v = '5.131'
-
     def __init__(self):
-        self.vk_session = VkApi(token=self.__access_token)
+        token = os.getenv("VK_TOKEN")
+        if not token:
+            raise NoTokenError
+        self.vk_session = VkApi(token=token)
         self.vk = self.vk_session.get_api()
 
     @staticmethod
     def get_attach_by_url(url, filepath):
+        """
+        Записать данные из файла по ссылке в файл с указанным путем.
+        :param url: адрес ресурса, с которого берем файл.
+        :param filepath: путь к файлу на компьютере пользователя, куда надо его записать.
+        :return: None.
+        """
         response = requests.get(url)
         with open(filepath, 'wb') as f:
             f.write(response.content)
@@ -144,3 +150,7 @@ class Parser:
                 posts.append(message)
             time.sleep(0.35)  # время ожидания: лимит запросов к VK API - 3 запроса в секунду
         return posts
+
+
+class NoTokenError(Exception):
+    """Ошибка отсутствия токена доступа."""

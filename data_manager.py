@@ -1,6 +1,6 @@
-import sqlite3
-import os
-from my_parser import Parser
+import sqlite3   # работа с SQL
+import os  # получение текущей рабочей директории
+from my_parser import Parser  # импорт парсера
 
 
 class DataManager:
@@ -107,6 +107,14 @@ class DataManager:
                         FROM subjects""").fetchall()))
 
     def ask_parser(self, url, title, link_type):
+        """
+        Пнуть парсер, чтобы тот скачал файл. В случае, если мы пытаемся скачать ссылку, вызвать
+        ошибку типа данных.
+        :param url: адрес (ссылка) файла.
+        :param title: название файла.
+        :param link_type: тип аттача.
+        :return: None
+        """
         if link_type == 'photo':
             index = url.index('?')
             title = url[url[:index].rindex('/') + 1:index]
@@ -116,6 +124,10 @@ class DataManager:
         self.__parser.get_attach_by_url(url, way)
 
     def find_attach(self, title):
+        """
+        Ищет аттач по его названию в списке. Нужно для доков и линков, чтобы на вторые было
+        возможно указать ссылки при выводе. В случае неверного названия вызывается ошибка данных.
+        """
         for attach in self.__loaded_attaches:
             if attach[1] == title:
                 return attach

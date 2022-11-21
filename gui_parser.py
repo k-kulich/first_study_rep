@@ -1,32 +1,47 @@
 import sys
 from PyQt5 import uic
-from post import Post
-from data_manager import DataManager, DatatypeError, DataError
+from post import Post  # пост для удобного форматирования вывода в PlainTextEdit
+from my_parser import NoTokenError  # ошибки парсера
+from data_manager import DataManager, DatatypeError, DataError  # DM и его ошибки
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QHeaderView
 
 
 class ParserUI(QMainWindow):
+    """Весь GUI и основной исполняемый файл."""
     def __init__(self):
         super().__init__()
-        self.dm = DataManager()
+        try:
+            self.dm = DataManager()
+        except NoTokenError:
+            print('Ошибка доступа: у вас отсутствует токен доступа в виртуальном окружении.')
+            self.close()
         uic.loadUi('parser.ui', self)
+        # настроить нужный вид заголовков таблицы
         header = self.tableDBView.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QHeaderView.Stretch)
-        self.status = self.statusBar()
-        self.showAttaches()
-        self.loadToFilter()
-        self.updateData()
+        self.status = self.statusBar()  # инициализировать statusbar
+        self.showAttaches()  # загрузить данные об аттачах
+        self.loadToFilter()  # загрузить названия предметов для фильтра записей
+        self.loadData()  # загрузить текущие данные из таблицы
+        # привязка кнопок
         self.loadDataBtn.clicked.connect(self.updateData)
         self.filterBtn.clicked.connect(self.loadData)
         self.loadAttachBtn.clicked.connect(self.downloadLink)
 
     def updateData(self):
+        """
+        Синхронизировать данные с выбранными ресурсами (пнуть свой DataManager, чтобы сделал это
+        с текущими значениями isChecked() у комбобоксов).
+        """
         self.dm.update_db(self.syncVk.isChecked(), self.syncPortal.isChecked())
         self.loadData()
 
     def loadData(self):
+        """
+        Загрузить данные из БД в таблицу и PlainTextEdit для удобного просмотра.
+        """
         self.messageTextView.clear()
         data = self.dm.load_from_db(self.subjectFilter.currentText())  # получить данные из БД
         # заполнить таблицу
@@ -51,13 +66,20 @@ class ParserUI(QMainWindow):
             self.messageTextView.appendPlainText(post.get_whole_text())
 
     def loadToFilter(self):
+        """Загрузить данные о предметах для фильтрации."""
         self.subjectFilter.addItems(self.dm.load_subjects())
 
     def showAttaches(self):
+        """Загрузить данные о всех аттачах."""
         self.selectAttach.addItems(list(map(lambda x: f'{x[2]}: {x[1]} <|{x[0]}|>',
                                             self.dm.load_attaches())))
 
     def downloadLink(self):
+        """
+        Скачать файл по ссылке. Так как в аттачах находятся не только файлы, но и ссылки на сторонние
+        ресурсы, типа зумовских конференций и заданий в гугл форме, которые скачать нельзя,
+        предусмотреть неверный ввод и не дать программе вылететь с ошибкой.
+        """
         attach = self.selectAttach.currentText()[:-2]
         index = attach.index(':')
         attach_type = attach[:index]
@@ -67,19 +89,16 @@ class ParserUI(QMainWindow):
             self.dm.ask_parser(url, title, attach_type)
         except DatatypeError:
             self.status.showMessage('Ошибка: нельзя скачать ссылку', 5000)
+        except ValueError:
+            self.status.showMessage('Ошибка: некорректный запрос', 3000)
 
     def closeEvent(self, event):
+        """При закрытии окна нам нужно сказать DM, чтобы разорвал соединение с БД."""
         self.dm.close_connection()
-
-
-def except_hook(cls, exception, traceback):
-    sys.__excepthook__(cls, exception, traceback)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    mygui = ParserUI()
-
-    sys.excepthook = except_hook
-    mygui.show()
+    gui = ParserUI()
+    gui.show()
     sys.exit(app.exec())
