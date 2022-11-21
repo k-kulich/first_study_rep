@@ -1,4 +1,5 @@
 import sqlite3
+import os
 from my_parser import Parser
 
 
@@ -8,6 +9,7 @@ class DataManager:
     def __init__(self):
         self.__connection = sqlite3.connect('homework_db.sqlite3')
         self.__parser = Parser()
+        self.__loaded_attaches = set()
 
     def __add_to_db(self, cursor, post):
         """Добавляет всю информацию поста в БД."""
@@ -90,9 +92,43 @@ class DataManager:
         Получить все ссылки из БД.
         :return: список аттачей (ссылка, название, тип).
         """
-        return self.__connection.cursor().execute("""SELECT link, title, type 
+        data = self.__connection.cursor().execute("""SELECT link, title, type 
         FROM attachments""").fetchall()
+        self.__loaded_attaches |= set(data)
+        return data
+
+    def load_subjects(self):
+        """
+        Получить названия всех предметов, которые есть в ДБ.
+        :return: список названий предметов.
+        """
+        return list(map(lambda x: x[0],
+                        self.__connection.cursor().execute("""SELECT title 
+                        FROM subjects""").fetchall()))
+
+    def ask_parser(self, url, title, link_type):
+        if link_type == 'photo':
+            index = url.index('?')
+            title = url[url[:index].rindex('/') + 1:index]
+        elif link_type != 'doc':
+            raise DatatypeError
+        way = os.getcwd() + f'\\parsed_attaches\\{title}'
+        self.__parser.get_attach_by_url(url, way)
+
+    def find_attach(self, title):
+        for attach in self.__loaded_attaches:
+            if attach[1] == title:
+                return attach
+        raise DataError
 
     def close_connection(self):
         """Разрыв соединения с базой."""
         self.__connection.close()
+
+
+class DatatypeError(Exception):
+    """Ошибка типа данных."""
+
+
+class DataError(Exception):
+    """Ошибка данных."""

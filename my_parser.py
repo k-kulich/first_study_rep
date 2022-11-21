@@ -27,6 +27,12 @@ class Parser:
         self.vk = self.vk_session.get_api()
 
     @staticmethod
+    def get_attach_by_url(url, filepath):
+        response = requests.get(url)
+        with open(filepath, 'wb') as f:
+            f.write(response.content)
+
+    @staticmethod
     def __get_bitrix_soup():
         """
         Отправить запрос GET по адресу сайта portal.anichkov.ru и получить код страницы.

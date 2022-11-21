@@ -25,17 +25,12 @@ class Post:
 
     def get_whole_text(self):
         """Получить полный текст сообщения в готовом для вывода виде."""
-        text = repr(self) + '\n\n'
-        for line in self.__text:
-            new_line = ''
-            for word in line.split():
-                if len(new_line + word) > self.MAX_LENGTH:
-                    text += new_line + '\n'
-                    new_line = ''
-                new_line += word + ' '
-            text += new_line + '\n'
+        text = repr(self) + '\n\n' + '\n'.join(self.__text)
         for attach in self.__attaches:
-            text += f'\n\nИмя файла: {attach[1]}\nРазмер файла: {attach[2]}'
+            if attach[3] == 'link':
+                text += f'\n\nНазвание ссылки: {attach[1]}\nСсылка: {attach[0]}'
+            else:
+                text += f'\n\nИмя файла: {attach[1]}'
         return text
 
     def get_attaches(self):

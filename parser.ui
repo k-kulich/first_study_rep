@@ -52,9 +52,8 @@ color: rgba(240, 240, 240, 250);</string>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">selection-background-color: rgba(255, 170, 0, 250);
-alternate-background-color: rgba(240, 240, 240, 250);
-color: rgba(50, 50, 50, 250);</string>
+     <string notr="true">color: rgba(40, 40, 40, 240);
+background-color: rgb(240, 240, 240);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::Box</enum>
@@ -136,9 +135,12 @@ color: rgba(50, 50, 50, 250);</string>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="sincPortal">
+      <widget class="QCheckBox" name="syncPortal">
        <property name="text">
         <string>Синхронизировать с portal.anichkov.ru</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -146,6 +148,9 @@ color: rgba(50, 50, 50, 250);</string>
       <widget class="QCheckBox" name="syncVk">
        <property name="text">
         <string>Синхронизировать с vk.com</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -224,7 +229,7 @@ color: rgba(50, 50, 50, 250);</string>
         </font>
        </property>
        <property name="text">
-        <string>Фильтрация просмотра записей:</string>
+        <string>Фильтрация просмотра записей по предмету:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -238,7 +243,7 @@ color: rgba(50, 50, 50, 250);</string>
        </property>
        <item>
         <property name="text">
-         <string>предмет</string>
+         <string>все</string>
         </property>
        </item>
       </widget>
@@ -269,7 +274,11 @@ color: rgba(50, 50, 50, 250);</string>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">color: rgba(240, 240, 240, 250);</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
