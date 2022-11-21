@@ -1,2 +1,0 @@
-access_token=vk1.a.sPvuT1Nad2hp93ARPEI5X-ZwyWVUAO--4c4ThEi-VvfCQJkyWaD3TBoTudSHZIaKH0ZXAlauKFQYzXCZKORsg9eNJJ9QUORX_50l1ry8YLXNk-wVfh4KjFX3AxXTonmk0Bt9_q42bZ3hZbm-cu5zuoy1aeH3k9idQl3nL_8qhP8Bw-l3lDGfQQxwkHUyaw4-Z4rltGQ3KNkapjpthIkqGg
-user_id=429692960
