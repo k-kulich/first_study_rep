@@ -86,7 +86,11 @@ class ParserUI(QMainWindow):
         предусмотреть неверный ввод и не дать программе вылететь с ошибкой.
         """
         attach = self.selectAttach.currentText()[:-2]
-        index = attach.index(':')
+        try:
+            index = attach.index(':')
+        except ValueError:
+            self.status.showMessage('Ошибка: некорректный запрос', 3000)
+            return
         attach_type = attach[:index]
         url = attach.split('<|')[-1]
         title = attach[index + 1:attach.index('<|')].strip()
@@ -94,8 +98,6 @@ class ParserUI(QMainWindow):
             self.dm.ask_parser(url, title, attach_type)
         except DatatypeError:
             self.status.showMessage('Ошибка: нельзя скачать ссылку', 5000)
-        except ValueError:
-            self.status.showMessage('Ошибка: некорректный запрос', 3000)
 
     def closeEvent(self, event):
         """
